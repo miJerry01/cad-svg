@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDGE Welcome Page</title>
+  <link rel="stylesheet" href="style/general.css" />
+</head>
+
+<body>
+  <header class="top-nav">
+    <div class="nav-logo">
+       <img src="icon/Logo3.svg" alt="logo">
+    
+    </div>
+
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#workflow">Workflow</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="#" class="sign-in">Sign In</a>
+      <a href="#" class="register">Register</a>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Utility Engineering Drafting • GIS/ Arcmap/ KMZ • Client DashBoard WIP</p>
+        <h1>Welcome to EDGE : Human Controlled A.i. Drafting </h1>
+        <p class="hero-description">
+          A futuristic platform for controlling Ai systems: Engineering & Architecture Drafting Suits integrading AutoCad, Revit, AUD, Micro-Station into consolidated Web coding.  
+
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#" class="primary-btn">Register Now</a>
+          <a href="#" class="secondary-btn">Sign In</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="card-header">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="code-box">
+          <p><span>ASSET MANAGEMENT</span> Dasboard initialized...</p>
+          <p>Loading Utility MAOP KMZ workflow map...</p>
+          <p>Connecting CAD, GIS, API Gateway...</p>
+          <p class="success">System ready.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="content-section">
+      <h2>EDGE Platform Workflow</h2>
+
+      <div class="box-grid">
+        <article class="info-box">
+          <div class="image-placeholder">Image / SVG Area</div>
+          <h3>Architecture & Engineering</h3>
+          <p>
+            Insert text, diagrams, workflow maps, CAD exports, or SVG-based engineering content here.
+          </p>
+        </article>
+
+        <article class="info-box">
+          <div class="image-placeholder">Image / SVG Area</div>
+          <h3>API Gateway Access</h3>
+          <p>
+            Add secure access logic for users, project managers, field crews, and drafting teams.
+          </p>
+        </article>
+
+        <article class="info-box">
+          <div class="image-placeholder">Image / SVG Area</div>
+          <h3>Project Tracking</h3>
+          <p>
+            Use this box for MAOP projects, fiber records, utility drawings, or work order tracking.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section id="services" class="content-section light">
+      <h2>Service Containers</h2>
+
+      <div class="container-wrapper">
+        <div class="main-container">
+          <h3>Main Container</h3>
+          <p>
+            This area can hold a large overview, welcome message, dashboard image, or project summary.
+          </p>
+
+          <div class="sub-container-row">
+            <div class="sub-container">
+              <h4>Sub-Container 1</h4>
+              <p>Insert small text, icons, or images.</p>
+            </div>
+
+            <div class="sub-container">
+              <h4>Sub-Container 2</h4>
+              <p>Insert project links, files, or status updates.</p>
+            </div>
+
+            <div class="sub-container">
+              <h4>Sub-Container 3</h4>
+              <p>Insert AI, GIS, CAD, or API notes.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="content-section">
+      <h2>Ready to Build with EDGE?</h2>
+      <p class="center-text">
+        Register to access project dashboards, protected pages, drafting workflows, and engineering resources.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 EDGE Drafting Gas & Electric LLC. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js">
+    const nav = document.querySelector(".top-nav");
+
+window.addEventListener("scroll", () => {
+  const scrollAmount = window.scrollY;
+
+  if (scrollAmount > 80) {
+    nav.classList.add("nav-scrolled");
+  } else {
+    nav.classList.remove("nav-scrolled");
+  }
+});
+  </script>
+  
+</body>
+
+
+</html>
