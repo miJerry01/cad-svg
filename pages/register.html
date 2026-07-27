@@ -392,21 +392,6 @@
 </label>
 
 
-          <!-- OPTIONAL MARKETING CONSENT -->
-          <label class="checkbox-row optional-checkbox">
-
-        <input
-  type="checkbox"
-  id="project-updates"
-  name="project_updates"
->
-
-            <span>
-              Send me occasional information about EDGE drafting,
-              digital blueprinting, and consultation services.
-            </span>
-
-          </label>
 
 
           <!-- CLOUDFLARE TURNSTILE -->
@@ -526,119 +511,124 @@
   const buttonText =
     registerButton.querySelector(".button-text");
 
-  registrationForm.addEventListener(
-    "submit",
-    async function (event) {
-      event.preventDefault();
+  registrationForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-      registrationMessage.textContent = "";
-      registrationMessage.className =
-        "registration-message";
+    registrationMessage.textContent = "";
+    registrationMessage.className = "registration-message";
 
-      const turnstileToken =
-        document.querySelector(
-          '[name="cf-turnstile-response"]'
-        )?.value;
+    const turnstileResponse =
+      document.querySelector('[name="cf-turnstile-response"]');
 
-      if (!turnstileToken) {
-        registrationMessage.textContent =
-          "Please complete the security verification.";
+    const turnstileToken =
+      turnstileResponse?.value?.trim() || "";
 
-        registrationMessage.classList.add(
-          "registration-message--error"
-        );
+    if (!turnstileToken) {
+      registrationMessage.textContent =
+        "Please complete the security verification.";
 
-        return;
-      }
+      registrationMessage.classList.add(
+        "registration-message--error"
+      );
 
-      const registrationData = {
-        fullName:
-          document.getElementById("full-name").value.trim(),
+      return;
+    }
 
-        email:
-          document.getElementById("email").value.trim(),
+    const registrationData = {
+      fullName:
+        document.getElementById("full-name").value.trim(),
 
-        company:
-          document.getElementById("company").value.trim(),
+      email:
+        document.getElementById("email").value.trim(),
 
-        interest:
-          document.getElementById("interest").value,
+      company:
+        document.getElementById("company").value.trim(),
 
-        acceptedTerms:
-          document.getElementById("access-terms").checked,
+      interest:
+        document.getElementById("interest").value,
 
-        marketingConsent:
-          document.getElementById("project-updates").checked,
+      acceptedTerms:
+        document.getElementById("access-terms").checked,
 
-        turnstileToken
-      };
+      marketingConsent:
+        document.getElementById("project-updates").checked,
 
-      registerButton.disabled = true;
-      buttonText.textContent = "Sending PIN...";
+      turnstileToken
+    };
+
+    registerButton.disabled = true;
+    buttonText.textContent = "Sending PIN...";
+
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(registrationData)
+      });
+
+      const responseText = await response.text();
+
+      let result;
 
       try {
-        const response = await fetch("/api/register", {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify(registrationData)
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            result.message ||
-            "Registration could not be completed."
-          );
-        }
-
-        sessionStorage.setItem(
-          "edgeVerificationEmail",
-          registrationData.email
+        result = JSON.parse(responseText);
+      } catch {
+        throw new Error(
+          `The registration server returned an invalid response. HTTP ${response.status}.`
         );
-
-        registrationMessage.textContent =
-          result.message ||
-          "Your verification PIN has been sent.";
-
-        registrationMessage.classList.add(
-          "registration-message--success"
-        );
-
-        window.setTimeout(() => {
-          window.location.href =
-            `/pages/verify.html?email=${encodeURIComponent(
-              registrationData.email
-            )}`;
-        }, 900);
-
-      } catch (error) {
-        console.error("EDGE registration error:", error);
-
-        registrationMessage.textContent =
-          error.message ||
-          "Registration could not be completed.";
-
-        registrationMessage.classList.add(
-          "registration-message--error"
-        );
-
-        if (window.turnstile) {
-          window.turnstile.reset();
-        }
-
-      } finally {
-        registerButton.disabled = false;
-
-        buttonText.textContent =
-          "Request Drawing Access";
       }
+
+      if (!response.ok) {
+        throw new Error(
+          result.message ||
+          `Registration failed with HTTP ${response.status}.`
+        );
+      }
+
+      sessionStorage.setItem(
+        "edgeVerificationEmail",
+        registrationData.email
+      );
+
+      registrationMessage.textContent =
+        result.message ||
+        "Your verification PIN has been sent.";
+
+      registrationMessage.classList.add(
+        "registration-message--success"
+      );
+
+      window.setTimeout(() => {
+        window.location.href =
+          `/pages/verify.html?email=${encodeURIComponent(
+            registrationData.email
+          )}`;
+      }, 900);
+
+    } catch (error) {
+      console.error("EDGE registration error:", error);
+
+      registrationMessage.textContent =
+        error.message ||
+        "Registration could not be completed.";
+
+      registrationMessage.classList.add(
+        "registration-message--error"
+      );
+
+      if (window.turnstile) {
+        window.turnstile.reset();
+      }
+
+    } finally {
+      registerButton.disabled = false;
+      buttonText.textContent = "Request Drawing Access";
     }
-  );
+  });
 </script>
 
 </body>
